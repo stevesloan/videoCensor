@@ -2,14 +2,15 @@
 
 import os
 import subprocess
+
 from functools import reduce
 
-# answer = input("What would you like to do? ")
+
 
 output = subprocess.check_output(['mkvinfo','/media/storage/Movies/the.lookout.2007.1080p.bluray.x264-hdmi.mkv'])
-print ('Have %d bytes in output' % len(output))
+# print ('Have %d bytes in output' % len(output))
 output = output.decode("utf-8")
-
+# print (output)
 arList = output.split('\n| + A track')
 
 
@@ -23,14 +24,16 @@ def test1():
 def filterString(string, target):
     if string in target:
         return target
-# arList = list(filter(filterString,arList))
+
 arList = list(filter((lambda x: filterString('subtitles', x)),arList))
 
 
 def splitStringColumns(listItem):
     out = listItem.split(':');
     if len(out) == 2:
-        return [out[0],out[1]]
+        return [str.replace(out[0], ' ', '_'),out[1]]
+    if len(out) == 3:
+        return [str.replace(out[0], ' ', '_'),out[2]]
     else:
         return False
 
@@ -46,7 +49,7 @@ def splitString(listItem):
     out = listItem.split('\n|  + ');
     out = list(map(splitStringColumns,out));
     out = arrayToObject(out);
-    print(out)
+
     return out;
 
 
@@ -66,8 +69,11 @@ arList = list(map(splitString,arList));
 
 
 
-def e(x):
-    # out = list(filter())
-    print(x)
-    # print(arrayToObject(x))
-list(map(e,arList))
+def printPrompt(x):
+    try:
+        print(x['Language'] + " : " + x['Track_number'])
+    except:
+        print('');
+list(map(printPrompt,arList))
+
+answer = input("What would you like to do? ")

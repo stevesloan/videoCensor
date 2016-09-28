@@ -49,7 +49,22 @@ def printPrompt(x):
         print('');
 
 def main():
-    arg = sys.argv[1].pop(3)
+    arg = sys.argv[1][:-4]
+
+    answer = '2'
+    command1 = arg + ".mkv "
+    command2 = answer + ":" + arg + ".srt"
+    # print (command)
+    print('mkvextract tracks '+command1 + ' ' + command2)
+    subprocess.Popen(['sleep', '2'])
+    # p = subprocess.Popen(['mkvextract', 'tracks', command1, command2],stderr = subprocess.PIPE)
+    # while True:
+    #     line = process.stderr.readline()
+    #     if not line:
+    #         break
+    #     print (line)
+
+
     print(arg)
     if len(sys.argv) < 2:
         # help()
@@ -57,7 +72,8 @@ def main():
         output = subprocess.check_output(['mkvinfo','/media/storage/Movies/the.lookout.2007.1080p.bluray.x264-hdmi.mkv']).decode("utf-8")
     else:
         # get data from mkvinfo
-        output = subprocess.check_output(['mkvinfo',str(sys.argv[1])]).decode("utf-8")
+        output = subprocess.check_output(['mkvinfo', arg+'.mkv']).decode("utf-8")
+        output = subprocess.check_output(['mkvinfo', arg+'.mkv']).decode("utf-8")
 
     arList = parseMkvInfo(output)
 
@@ -65,7 +81,13 @@ def main():
     list(map(printPrompt,arList))
     answer = input("Which track would you like to censor? ")
 
-
+    command1 = arg + ".mkv "
+    command2 = answer + ":" + arg + ".srt"
+    # print (command)
+    print('mkvextract tracks '+command1 + ' ' + command2)
+    subprocess.call(['sleep', '2'])
+    subprocess.call(['mkvextract', 'tracks', command1, command2])
+    # output = subprocess.check_output(['mkvextract', 'tracks '+ command1+ ' '+ command2])
 
 
 

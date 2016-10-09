@@ -48,26 +48,6 @@ def printPrompt(x):
     except:
         print('');
 
-
-def test():
-    print('========testing=======')
-    # arg = sys.argv[1][:-4]
-    arg = "/Users/stevensloan/dev/personal/videoCensor/the.lookout.2007.1080p.bluray.x264-hdmi"
-
-
-    answer = '2'
-    command1 = arg + ".mkv"
-    command2 = answer + ":" + arg + ".srt"
-
-    p = subprocess.Popen(['mkvextract', 'tracks', command1, command2], stderr = subprocess.PIPE, bufsize=0)
-    while True:
-        line = p.stderr.readline()
-        if not line:
-            break
-        print (line)
-
-# test()
-
 def generateSrt():
     # validate that argument was given
     if len(sys.argv) < 2:
@@ -92,13 +72,13 @@ def generateSrt():
     subprocess.call(['mkvextract', 'tracks', command1, command2])
     # output = subprocess.check_output(['mkvextract', 'tracks '+ command1+ ' '+ command2])
 
-
+def generateEdl():
+    arg = sys.argv[1][:-4]
+    subprocess.call(['XBMC-Language-Filter/Linux/parse_srt.pl', '--pad=0', "--offset=0", arg + ".srt"])
 
 def main():
-
+    # git clone https://github.com/compwright/XBMC-Language-Filter.git
     generateSrt()
-
-
-
+    generateEdl()
 
 main()

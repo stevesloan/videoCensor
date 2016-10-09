@@ -48,46 +48,56 @@ def printPrompt(x):
     except:
         print('');
 
-def main():
-    arg = sys.argv[1][:-4]
+
+def test():
+    print('========testing=======')
+    # arg = sys.argv[1][:-4]
+    arg = "/Users/stevensloan/dev/personal/videoCensor/the.lookout.2007.1080p.bluray.x264-hdmi"
+
 
     answer = '2'
-    command1 = arg + ".mkv "
+    command1 = arg + ".mkv"
     command2 = answer + ":" + arg + ".srt"
-    # print (command)
-    print('mkvextract tracks '+command1 + ' ' + command2)
-    subprocess.Popen(['sleep', '2'])
-    # p = subprocess.Popen(['mkvextract', 'tracks', command1, command2],stderr = subprocess.PIPE)
-    # while True:
-    #     line = process.stderr.readline()
-    #     if not line:
-    #         break
-    #     print (line)
 
+    p = subprocess.Popen(['mkvextract', 'tracks', command1, command2], stderr = subprocess.PIPE, bufsize=0)
+    while True:
+        line = p.stderr.readline()
+        if not line:
+            break
+        print (line)
 
-    print(arg)
+# test()
+
+def generateSrt():
+    # validate that argument was given
     if len(sys.argv) < 2:
-        # help()
-        # return False
-        output = subprocess.check_output(['mkvinfo','/media/storage/Movies/the.lookout.2007.1080p.bluray.x264-hdmi.mkv']).decode("utf-8")
+        help()
+        return False
     else:
+        # remove mkv file extension
+        arg = sys.argv[1][:-4]
+
         # get data from mkvinfo
         output = subprocess.check_output(['mkvinfo', arg+'.mkv']).decode("utf-8")
         output = subprocess.check_output(['mkvinfo', arg+'.mkv']).decode("utf-8")
-
+    # parse track listing
     arList = parseMkvInfo(output)
 
     # print prompt
     list(map(printPrompt,arList))
     answer = input("Which track would you like to censor? ")
 
-    command1 = arg + ".mkv "
+    command1 = arg + ".mkv"
     command2 = answer + ":" + arg + ".srt"
-    # print (command)
-    print('mkvextract tracks '+command1 + ' ' + command2)
-    subprocess.call(['sleep', '2'])
     subprocess.call(['mkvextract', 'tracks', command1, command2])
     # output = subprocess.check_output(['mkvextract', 'tracks '+ command1+ ' '+ command2])
+
+
+
+def main():
+
+    generateSrt()
+
 
 
 

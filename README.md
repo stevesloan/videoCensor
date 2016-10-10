@@ -2,4 +2,4 @@
 
 ## Install
 - requires mkvtoolnix
-- git clone https://github.com/compwright/XBMC-Language-Filter.git
+- git clone https://github.com/stevesloan/XBMC-Language-Filter.git

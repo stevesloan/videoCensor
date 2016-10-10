@@ -44,10 +44,21 @@ def help():
     print('Need file name')
 
 def printPrompt(x):
+    prompt = ""
     try:
-        print(x['Language'] + " : " + x['Track_number'])
+        prompt += x['Language']
     except:
-        print('');
+        prompt += ""
+    try:
+        prompt += " - " + x['Name']
+    except:
+        prompt += ""
+    try:
+        prompt += " : " + x['Track_number']
+    except:
+        prompt += ""
+
+    print(prompt)
 
 def generateSrt():
     # validate that argument was given

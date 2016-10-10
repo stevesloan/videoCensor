@@ -1,6 +1,7 @@
 #!/bin/python
 import subprocess
 import sys
+import os
 
 def parseMkvInfo(strInput):
     # split track info to array
@@ -73,11 +74,11 @@ def generateSrt():
     # output = subprocess.check_output(['mkvextract', 'tracks '+ command1+ ' '+ command2])
 
 def generateEdl():
+    base_dir = os.path.dirname(os.path.realpath(__file__))
     arg = sys.argv[1][:-4]
-    subprocess.call(['XBMC-Language-Filter/Linux/parse_srt.pl', '--pad=0', "--offset=0", arg + ".srt"])
+    subprocess.call([base_dir + '/XBMC-Language-Filter/Linux/parse_srt.pl', '--pad=0', "--offset=0", arg + ".srt"])
 
 def main():
-    # git clone https://github.com/compwright/XBMC-Language-Filter.git
     generateSrt()
     generateEdl()
 
